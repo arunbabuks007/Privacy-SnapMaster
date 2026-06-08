@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy – SnapMaster Screenshot &amp; Editor</title>
+  <style>
+    :root {
+      --accent: #6366f1;
+      --bg:     #0d0d0f;
+      --card:   #18181b;
+      --border: #2e2e34;
+      --text:   #e4e4e7;
+      --muted:  #a1a1aa;
+      --green:  #10b981;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      padding: 48px 24px 40px;
+      text-align: center;
+    }
+    header .logo { font-size: 48px; margin-bottom: 12px; }
+    header h1   { font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+    header p    { color: rgba(255,255,255,0.75); font-size: 14px; }
+    .badge {
+      display: inline-block; margin-top: 14px;
+      background: rgba(255,255,255,0.15); color: #fff;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 999px; padding: 4px 14px; font-size: 12px; font-weight: 600;
+    }
+
+    /* ── LAYOUT ── */
+    .wrapper { max-width: 780px; margin: 0 auto; padding: 48px 24px 80px; }
+
+    /* ── TOC ── */
+    .toc {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px 28px; margin-bottom: 40px;
+    }
+    .toc h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 12px; }
+    .toc ol  { padding-left: 18px; }
+    .toc li  { margin: 6px 0; }
+    .toc a   { color: var(--accent); text-decoration: none; font-size: 14px; }
+    .toc a:hover { text-decoration: underline; }
+
+    /* ── SECTIONS ── */
+    section { margin-bottom: 44px; }
+    section h2 {
+      font-size: 19px; font-weight: 700; color: #fff;
+      border-left: 3px solid var(--accent); padding-left: 12px;
+      margin-bottom: 14px;
+    }
+    section p   { color: var(--muted); margin-bottom: 12px; }
+    section p strong { color: var(--text); }
+
+    /* ── CALLOUT BOXES ── */
+    .box {
+      border-radius: 10px; padding: 16px 20px; margin: 16px 0;
+      border: 1px solid;
+    }
+    .box-green  { background: rgba(16,185,129,.08);  border-color: rgba(16,185,129,.3);  color: #6ee7b7; }
+    .box-blue   { background: rgba(59,130,246,.08);  border-color: rgba(59,130,246,.3);  color: #93c5fd; }
+    .box-yellow { background: rgba(234,179,8,.08);   border-color: rgba(234,179,8,.3);   color: #fde047; }
+    .box-title  { font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing:.05em; margin-bottom: 6px; }
+    .box p      { color: inherit; margin: 0; font-size: 14px; }
+
+    /* ── PERMISSION TABLE ── */
+    .perm-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+    .perm-table th {
+      text-align: left; padding: 9px 12px;
+      background: #1c1c20; color: var(--muted);
+      font-size: 11px; text-transform: uppercase; letter-spacing:.05em;
+      border-bottom: 1px solid var(--border);
+    }
+    .perm-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .perm-table tr:last-child td { border-bottom: none; }
+    .perm-table td:first-child { color: var(--text); font-family: monospace; font-size: 13px; white-space: nowrap; }
+    .perm-table td:nth-child(2) { color: var(--muted); }
+    .tag {
+      display: inline-block; border-radius: 4px; padding: 2px 7px;
+      font-size: 11px; font-weight: 600;
+    }
+    .tag-local   { background: rgba(16,185,129,.15);  color: #6ee7b7; }
+    .tag-none    { background: rgba(99,102,241,.15);  color: #a5b4fc; }
+
+    /* ── CONTACT CARD ── */
+    .contact-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px 28px; margin-top: 16px;
+      display: flex; gap: 16px; align-items: flex-start;
+    }
+    .contact-card .icon { font-size: 28px; flex-shrink: 0; }
+    .contact-card h3    { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .contact-card p     { color: var(--muted); font-size: 13px; margin: 0; }
+    .contact-card a     { color: var(--accent); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 28px 24px;
+      border-top: 1px solid var(--border);
+      color: var(--muted); font-size: 12px;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    @media (max-width: 520px) {
+      header h1 { font-size: 22px; }
+      .wrapper  { padding: 32px 16px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="logo">📸</div>
+  <h1>SnapMaster – Privacy Policy</h1>
+  <p>Screenshot &amp; Editor Chrome Extension</p>
+  <span class="badge">🔒 100% Local · No Servers · No Tracking</span>
+</header>
+
+<div class="wrapper">
+
+  <!-- ── EFFECTIVE DATE ── -->
+  <div class="box box-blue" style="margin-bottom:32px">
+    <div class="box-title">📅 Effective Date</div>
+    <p><strong>Last updated: June 8, 2025.</strong> This policy applies to all versions of the SnapMaster extension distributed via the Chrome Web Store (Extension ID: <code style="font-size:12px">bllhjhfajpclmnlogplcfjjnlkmnlfmp</code>).</p>
+  </div>
+
+  <!-- ── TOC ── -->
+  <nav class="toc">
+    <h2>Table of Contents</h2>
+    <ol>
+      <li><a href="#overview">Overview &amp; Summary</a></li>
+      <li><a href="#data-collected">What Data We Collect</a></li>
+      <li><a href="#permissions">Extension Permissions Explained</a></li>
+      <li><a href="#data-storage">How Data Is Stored</a></li>
+      <li><a href="#data-sharing">Data Sharing &amp; Third Parties</a></li>
+      <li><a href="#data-retention">Data Retention &amp; Deletion</a></li>
+      <li><a href="#children">Children's Privacy</a></li>
+      <li><a href="#changes">Changes to This Policy</a></li>
+      <li><a href="#contact">Contact Us</a></li>
+    </ol>
+  </nav>
+
+  <!-- ── 1. OVERVIEW ── -->
+  <section id="overview">
+    <h2>1. Overview &amp; Summary</h2>
+    <div class="box box-green">
+      <div class="box-title">✅ Short Version</div>
+      <p>SnapMaster captures screenshots and lets you annotate them entirely on your device. <strong>We do not collect, transmit, or share any personal data, screenshots, or usage information with anyone — ever.</strong> Everything stays locally in your browser.</p>
+    </div>
+    <p>SnapMaster ("the Extension", "we", "our") is a Chrome browser extension that allows users to capture visible-area screenshots, full-page scroll screenshots, and selected-area screenshots, then edit them with annotation tools (pen, arrows, text, blur, crop, etc.). The Extension is designed to operate entirely offline and locally within the user's browser.</p>
+    <p>This Privacy Policy explains what information the Extension accesses, how it is used, and the rights you have regarding that information.</p>
+  </section>
+
+  <!-- ── 2. DATA COLLECTED ── -->
+  <section id="data-collected">
+    <h2>2. What Data We Collect</h2>
+
+    <div class="box box-green">
+      <div class="box-title">📵 We Do NOT Collect</div>
+      <p>We do <strong>not</strong> collect, store remotely, or transmit: personal identifiers, browsing history, page content, form data, cookies, passwords, financial information, health information, location data, user communications, or any other personal or sensitive data.</p>
+    </div>
+
+    <p style="margin-top:16px">The only data the Extension ever handles is:</p>
+    <ul style="margin: 10px 0 0 20px; color: var(--muted); font-size:14px; line-height:2">
+      <li><strong style="color:var(--text)">Screenshot image data</strong> — pixel data of the visible browser tab, captured only when you explicitly trigger a capture action. This data is stored <em>locally</em> in your browser via <code>chrome.storage.local</code> and is never transmitted anywhere.</li>
+      <li><strong style="color:var(--text)">Editor preferences</strong> — tool settings such as brush size, colour, font size, etc., stored <em>locally</em> in session memory only. These are not persisted beyond the editor session.</li>
+    </ul>
+
+    <div class="box box-yellow" style="margin-top:18px">
+      <div class="box-title">⚠️ Important Note on Screenshot Content</div>
+      <p>When you capture a screenshot, the image may contain sensitive information visible on your screen at the time of capture (e.g., banking pages, personal emails). This image data is stored only on your local device and is never transmitted to us or any third party. You are solely responsible for managing your captured screenshots.</p>
+    </div>
+  </section>
+
+  <!-- ── 3. PERMISSIONS ── -->
+  <section id="permissions">
+    <h2>3. Extension Permissions Explained</h2>
+    <p>SnapMaster requests the following Chrome permissions. Each permission is used exclusively for core screenshot functionality and is not used to collect user data:</p>
+
+    <table class="perm-table">
+      <thead>
+        <tr>
+          <th>Permission</th>
+          <th>Why It Is Required</th>
+          <th>Data Sent Externally?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>activeTab</td>
+          <td>Capture a screenshot of the currently active browser tab when you click the extension icon or use a keyboard shortcut. Access is granted only for the duration of the capture action.</td>
+          <td><span class="tag tag-none">None</span></td>
+        </tr>
+        <tr>
+          <td>storage</td>
+          <td>Save captured screenshots to <code>chrome.storage.local</code> (local device only) so the editor page can access the image after it opens. Data never leaves the device.</td>
+          <td><span class="tag tag-local">Local only</span></td>
+        </tr>
+        <tr>
+          <td>scripting</td>
+          <td>Inject the selection-area overlay and scroll-capture scripts into the active tab when you choose "Select Area" or "Full Page Scroll" capture modes. Scripts run locally and do not transmit page content.</td>
+          <td><span class="tag tag-none">None</span></td>
+        </tr>
+        <tr>
+          <td>host_permissions (&lt;all_urls&gt;)</td>
+          <td>Required by <code>scripting</code> to inject content scripts into any tab regardless of domain, so you can capture screenshots on all websites. No page content is read or transmitted — the script only controls the screenshot overlay UI.</td>
+          <td><span class="tag tag-none">None</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ── 4. DATA STORAGE ── -->
+  <section id="data-storage">
+    <h2>4. How Data Is Stored</h2>
+    <p>All data handled by SnapMaster is stored exclusively using the browser's built-in <strong>local storage API</strong> (<code>chrome.storage.local</code>), which keeps data on your device only. This storage:</p>
+    <ul style="margin: 10px 0 16px 20px; color: var(--muted); font-size:14px; line-height:2">
+      <li>Is <strong style="color:var(--text)">never synced</strong> to Google accounts or any remote server (we explicitly do not use <code>chrome.storage.sync</code>).</li>
+      <li>Is <strong style="color:var(--text)">never accessible</strong> by us, Google, or any third party.</li>
+      <li>Can be <strong style="color:var(--text)">cleared at any time</strong> by removing the extension or clearing browser data.</li>
+      <li>Is limited to a small history of recent screenshots (up to 50 images) stored as data URLs in your browser's local storage.</li>
+    </ul>
+    <div class="box box-blue">
+      <div class="box-title">🌐 No External Network Requests</div>
+      <p>SnapMaster makes <strong>zero network requests</strong>. It does not connect to any server, API, analytics service, cloud storage, or third-party service. You can verify this by inspecting the extension's network activity in Chrome DevTools.</p>
+    </div>
+  </section>
+
+  <!-- ── 5. DATA SHARING ── -->
+  <section id="data-sharing">
+    <h2>5. Data Sharing &amp; Third Parties</h2>
+    <p>We do <strong>not</strong> share, sell, rent, trade, or otherwise transfer any data to third parties. Specifically:</p>
+    <ul style="margin: 10px 0 0 20px; color: var(--muted); font-size:14px; line-height:2">
+      <li>No analytics or telemetry services are embedded in the Extension.</li>
+      <li>No advertising networks or data brokers receive any information.</li>
+      <li>No crash reporting services receive data about your usage.</li>
+      <li>No cloud services receive your screenshots or any other data.</li>
+    </ul>
+    <p style="margin-top:12px">The Extension does not integrate with any third-party SDKs, libraries loaded from external CDNs, or remote scripts of any kind. All code runs locally from the installed extension package.</p>
+  </section>
+
+  <!-- ── 6. DATA RETENTION ── -->
+  <section id="data-retention">
+    <h2>6. Data Retention &amp; Deletion</h2>
+    <p>Because all data is stored locally on your device, you have full control over it:</p>
+    <ul style="margin: 10px 0 16px 20px; color: var(--muted); font-size:14px; line-height:2">
+      <li><strong style="color:var(--text)">Automatic cleanup:</strong> The extension retains a maximum of 50 screenshots in local storage. Older entries are automatically removed when the limit is reached.</li>
+      <li><strong style="color:var(--text)">Manual deletion:</strong> You can delete all extension data at any time by going to <em>chrome://settings/content/all</em>, finding the extension, and clearing its storage.</li>
+      <li><strong style="color:var(--text)">Uninstall:</strong> Removing the extension from Chrome automatically deletes all locally stored data, including screenshots.</li>
+    </ul>
+    <p>We have no ability to delete data on your behalf because we never receive or hold any data from you.</p>
+  </section>
+
+  <!-- ── 7. CHILDREN ── -->
+  <section id="children">
+    <h2>7. Children's Privacy</h2>
+    <p>SnapMaster does not knowingly collect any personal information from children under the age of 13 (or the applicable age of digital consent in your jurisdiction). Because the Extension collects <em>no personal data whatsoever</em>, it is inherently safe for all age groups. If you are a parent or guardian and have concerns, please <a href="#contact" style="color:var(--accent)">contact us</a>.</p>
+  </section>
+
+  <!-- ── 8. CHANGES ── -->
+  <section id="changes">
+    <h2>8. Changes to This Policy</h2>
+    <p>We may update this Privacy Policy from time to time. Any changes will be reflected by updating the "Last updated" date at the top of this page. We will not reduce your rights under this policy without your explicit consent. The most current version of this policy is always available at this URL.</p>
+    <p>Continued use of the Extension after any changes constitutes your acceptance of the updated policy. If you do not agree with the updated policy, please uninstall the Extension.</p>
+  </section>
+
+  <!-- ── 9. CONTACT ── -->
+  <section id="contact">
+    <h2>9. Contact Us</h2>
+    <p>If you have any questions, concerns, or feedback regarding this Privacy Policy or the Extension's data practices, please reach out:</p>
+
+    <div class="contact-card">
+      <div class="icon">✉️</div>
+      <div>
+        <h3>Developer Contact</h3>
+        <p>Email: <a href="mailto:arunbabuks03@gmail.com">arunbabuks03@gmail.com</a></p>
+        <p style="margin-top:6px">We aim to respond to all privacy-related inquiries within 5 business days.</p>
+      </div>
+    </div>
+
+    <div class="contact-card" style="margin-top:14px">
+      <div class="icon">🔗</div>
+      <div>
+        <h3>Chrome Web Store Listing</h3>
+        <p>Extension ID: <code style="font-size:12px;color:var(--text)">bllhjhfajpclmnlogplcfjjnlkmnlfmp</code></p>
+        <p style="margin-top:4px">For bug reports and feature requests, use the Support tab on the Chrome Web Store listing page.</p>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /.wrapper -->
+
+<footer>
+  <p>© 2025 SnapMaster – Screenshot &amp; Editor. All rights reserved.</p>
+  <p style="margin-top:6px">This privacy policy was last updated on <strong>June 8, 2025</strong>.</p>
+  <p style="margin-top:10px; font-size:11px; color:#52525b">
+    SnapMaster is an independent Chrome Extension. It is not affiliated with, endorsed by,
+    or sponsored by Google LLC or Alphabet Inc.
+  </p>
+</footer>
+
+</body>
+</html>
