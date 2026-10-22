@@ -134,7 +134,7 @@
   <!-- ── EFFECTIVE DATE ── -->
   <div class="box box-blue" style="margin-bottom:32px">
     <div class="box-title">📅 Effective Date</div>
-    <p><strong>Last updated: June 8, 2025.</strong> This policy applies to all versions of the SnapMaster extension distributed via the Chrome Web Store (Extension ID: <code style="font-size:12px">bllhjhfajpclmnlogplcfjjnlkmnlfmp</code>).</p>
+    <p><strong>Last updated: October 22, 2026.</strong> This policy applies to all versions of the SnapMaster extension distributed via the Chrome Web Store (Extension ID: <code style="font-size:12px">bllhjhfajpclmnlogplcfjjnlkmnlfmp</code>).</p>
   </div>
 
   <!-- ── TOC ── -->
@@ -175,8 +175,10 @@
 
     <p style="margin-top:16px">The only data the Extension ever handles is:</p>
     <ul style="margin: 10px 0 0 20px; color: var(--muted); font-size:14px; line-height:2">
-      <li><strong style="color:var(--text)">Screenshot image data</strong> — pixel data of the visible browser tab, captured only when you explicitly trigger a capture action. This data is stored <em>locally</em> in your browser via <code>chrome.storage.local</code> and is never transmitted anywhere.</li>
-      <li><strong style="color:var(--text)">Editor preferences</strong> — tool settings such as brush size, colour, font size, etc., stored <em>locally</em> in session memory only. These are not persisted beyond the editor session.</li>
+      <li><strong style="color:var(--text)">Screenshot images</strong> — the pixels of the page you choose to capture (visible area, a selected area, or the whole page), captured only when you trigger a capture. They are kept <em>locally</em> in your browser's own database (IndexedDB) so the editor and the History page can open them. They are never transmitted anywhere.</li>
+      <li><strong style="color:var(--text)">Page address and title</strong> — saved on your device next to each capture in your local History, and, only if you turn on <em>“Add the page URL and date”</em> in Settings, printed under the screenshot. They are never sent anywhere.</li>
+      <li><strong style="color:var(--text)">Your settings</strong> — choices such as auto-copy, file format and name, self-timer, theme, default colours and tools, and optional watermark text. They are stored locally with <code>chrome.storage.local</code> and are never synced or transmitted.</li>
+      <li><strong style="color:var(--text)">The clipboard</strong> — SnapMaster can <em>write</em> a screenshot to your clipboard when you press Copy or turn on automatic copying. It never reads your clipboard.</li>
     </ul>
 
     <div class="box box-yellow" style="margin-top:18px">
@@ -206,17 +208,32 @@
         </tr>
         <tr>
           <td>storage</td>
-          <td>Save captured screenshots to <code>chrome.storage.local</code> (local device only) so the editor page can access the image after it opens. Data never leaves the device.</td>
+          <td>Remember your settings (<code>chrome.storage.local</code>) and hand the editor the capture it should open. Data never leaves the device.</td>
+          <td><span class="tag tag-local">Local only</span></td>
+        </tr>
+        <tr>
+          <td>unlimitedStorage</td>
+          <td>Full-page captures and your History are many megabytes, more than the default storage quota. They stay in local browser storage (IndexedDB); nothing is transmitted.</td>
+          <td><span class="tag tag-local">Local only</span></td>
+        </tr>
+        <tr>
+          <td>clipboardWrite</td>
+          <td>Lets SnapMaster copy a screenshot to your clipboard when you press Copy or turn on “Copy to clipboard automatically”. It only ever writes; it never reads your clipboard.</td>
+          <td><span class="tag tag-local">Local only</span></td>
+        </tr>
+        <tr>
+          <td>downloads (optional)</td>
+          <td>Only if you turn on automatic saving or choose a download subfolder: saves the screenshot file to your Downloads folder. Requested at that moment and can be revoked at any time.</td>
           <td><span class="tag tag-local">Local only</span></td>
         </tr>
         <tr>
           <td>scripting</td>
-          <td>Inject the selection-area overlay and scroll-capture scripts into the active tab when you choose "Select Area" or "Full Page Scroll" capture modes. Scripts run locally and do not transmit page content.</td>
+          <td>Run the selection overlay, the scrollbar picker and the scroll-and-capture logic in the tab you are capturing, and — when you copy without opening the editor — write the image to the clipboard from that tab. Scripts run locally and do not transmit page content.</td>
           <td><span class="tag tag-none">None</span></td>
         </tr>
         <tr>
           <td>host_permissions (&lt;all_urls&gt;)</td>
-          <td>Required by <code>scripting</code> to inject content scripts into any tab regardless of domain, so you can capture screenshots on all websites. No page content is read or transmitted — the script only controls the screenshot overlay UI.</td>
+          <td>Required by <code>scripting</code> and by screenshot capture so SnapMaster works on any website you choose. During a full-page capture it looks at which parts of the page scroll and briefly adjusts the page (hides scrollbars and fixed bars, pauses animations), then restores it. Page content is only turned into the image you asked for — nothing is read for any other purpose or transmitted.</td>
           <td><span class="tag tag-none">None</span></td>
         </tr>
       </tbody>
@@ -226,16 +243,17 @@
   <!-- ── 4. DATA STORAGE ── -->
   <section id="data-storage">
     <h2>4. How Data Is Stored</h2>
-    <p>All data handled by SnapMaster is stored exclusively using the browser's built-in <strong>local storage API</strong> (<code>chrome.storage.local</code>), which keeps data on your device only. This storage:</p>
+    <p>All data handled by SnapMaster is stored exclusively with the browser's built-in local storage — <code>chrome.storage.local</code> for settings and <strong>IndexedDB</strong> for screenshots — which keep data on your device only. This storage:</p>
     <ul style="margin: 10px 0 16px 20px; color: var(--muted); font-size:14px; line-height:2">
       <li>Is <strong style="color:var(--text)">never synced</strong> to Google accounts or any remote server (we explicitly do not use <code>chrome.storage.sync</code>).</li>
       <li>Is <strong style="color:var(--text)">never accessible</strong> by us, Google, or any third party.</li>
       <li>Can be <strong style="color:var(--text)">cleared at any time</strong> by removing the extension or clearing browser data.</li>
-      <li>Is limited to a small history of recent screenshots (up to 50 images) stored as data URLs in your browser's local storage.</li>
+      <li>Holds a History of recent screenshots whose size <em>you</em> choose in Settings (5 to 100 captures; 30 by default, or switched off). Older captures are removed automatically.</li>
     </ul>
     <div class="box box-blue">
       <div class="box-title">🌐 No External Network Requests</div>
       <p>SnapMaster makes <strong>zero network requests</strong>. It does not connect to any server, API, analytics service, cloud storage, or third-party service. You can verify this by inspecting the extension's network activity in Chrome DevTools.</p>
+      <p style="margin-top:10px">The optional <strong>“Buy me a boost”</strong> button simply opens a web page (<code>privacy-snap-master.vercel.app/boost</code>) in a new browser tab. That page — not the extension — takes the tip through Razorpay, and only if you choose to send one. It asks for an amount and, optionally, a name and a message; Razorpay handles your payment details, which SnapMaster never sees. A boost is a voluntary tip and unlocks nothing.</p>
     </div>
   </section>
 
@@ -257,8 +275,8 @@
     <h2>6. Data Retention &amp; Deletion</h2>
     <p>Because all data is stored locally on your device, you have full control over it:</p>
     <ul style="margin: 10px 0 16px 20px; color: var(--muted); font-size:14px; line-height:2">
-      <li><strong style="color:var(--text)">Automatic cleanup:</strong> The extension retains a maximum of 50 screenshots in local storage. Older entries are automatically removed when the limit is reached.</li>
-      <li><strong style="color:var(--text)">Manual deletion:</strong> You can delete all extension data at any time by going to <em>chrome://settings/content/all</em>, finding the extension, and clearing its storage.</li>
+      <li><strong style="color:var(--text)">Automatic cleanup:</strong> The extension keeps only as many captures as your History setting allows (default 30). Older entries are removed automatically when the limit is reached.</li>
+      <li><strong style="color:var(--text)">Manual deletion:</strong> Delete one capture or everything from the History page, use <em>Settings → Data &amp; privacy → Clear history</em> or <em>Reset to defaults</em>, or clear the extension's data in <em>chrome://settings/content/all</em>.</li>
       <li><strong style="color:var(--text)">Uninstall:</strong> Removing the extension from Chrome automatically deletes all locally stored data, including screenshots.</li>
     </ul>
     <p>We have no ability to delete data on your behalf because we never receive or hold any data from you.</p>
@@ -305,7 +323,7 @@
 
 <footer>
   <p>© 2025 SnapMaster – Screenshot &amp; Editor. All rights reserved.</p>
-  <p style="margin-top:6px">This privacy policy was last updated on <strong>June 8, 2025</strong>.</p>
+  <p style="margin-top:6px">This privacy policy was last updated on <strong>October 22, 2026</strong>.</p>
   <p style="margin-top:10px; font-size:11px; color:#52525b">
     SnapMaster is an independent Chrome Extension. It is not affiliated with, endorsed by,
     or sponsored by Google LLC or Alphabet Inc.

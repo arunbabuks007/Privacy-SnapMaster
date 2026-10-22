@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buy me a boost – SnapMaster</title>
+<meta name="description" content="SnapMaster is free. If it saved you time, send a small boost to help keep it improving.">
+<style>
+  :root { --bg:#0d0d12; --card:#16161d; --line:#2a2a35; --text:#ececf2; --muted:#9a9aab; --acc:#7c6cf6; --good:#22c55e; --bad:#f87171; }
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+  body { min-height:100vh; font:15px/1.6 'Segoe UI',system-ui,-apple-system,sans-serif; color:var(--text);
+    background:radial-gradient(1100px 500px at 50% -10%, #4338ca55, transparent 70%), var(--bg); display:grid; place-items:center; padding:28px 16px; }
+  .card { width:100%; max-width:480px; background:var(--card); border:1px solid var(--line); border-radius:20px; padding:30px 28px 24px; box-shadow:0 30px 80px rgba(0,0,0,.5); }
+  .logo { width:54px; height:54px; border-radius:16px; background:linear-gradient(135deg,#6366f1,#a855f7); display:grid; place-items:center; font-size:28px; margin-bottom:14px; box-shadow:0 8px 24px #6d5df066; }
+  h1 { font-size:26px; letter-spacing:-.5px; }
+  .lead { color:var(--muted); margin:6px 0 22px; }
+  label.t { display:block; font-size:12px; font-weight:700; letter-spacing:.7px; text-transform:uppercase; color:var(--muted); margin:18px 0 8px; }
+  .chips { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+  .chip { padding:12px 0; border-radius:12px; border:1px solid var(--line); background:#1d1d27; color:var(--text); font:700 16px inherit; cursor:pointer; transition:.12s; }
+  .chip:hover { border-color:var(--acc); }
+  .chip.on { background:linear-gradient(135deg,#6366f1,#a855f7); border-color:transparent; color:#fff; box-shadow:0 6px 18px #6d5df055; }
+  .field { width:100%; padding:12px 14px; border-radius:12px; border:1px solid var(--line); background:#1d1d27; color:var(--text); font:inherit; outline:none; }
+  .field:focus { border-color:var(--acc); box-shadow:0 0 0 3px #7c6cf633; }
+  .amt { display:flex; align-items:center; gap:8px; }
+  .amt span { font-weight:800; font-size:18px; color:var(--muted); }
+  textarea.field { resize:vertical; min-height:76px; }
+  .count { text-align:right; font-size:11.5px; color:var(--muted); margin-top:3px; }
+  button.pay { width:100%; margin-top:22px; padding:15px; border:none; border-radius:14px; cursor:pointer; color:#fff; font:800 16px inherit;
+    background:linear-gradient(135deg,#6366f1,#a855f7); box-shadow:0 10px 28px #6d5df066; transition:.12s; }
+  button.pay:hover:not(:disabled) { filter:brightness(1.1); transform:translateY(-1px); }
+  button.pay:disabled { opacity:.55; cursor:wait; }
+  .msg { min-height:22px; margin-top:12px; font-size:13.5px; text-align:center; color:var(--muted); }
+  .msg.err { color:var(--bad); }
+  .fine { margin-top:18px; padding-top:16px; border-top:1px solid var(--line); font-size:12px; color:var(--muted); text-align:center; line-height:1.55; }
+  .fine a { color:#a5b4fc; }
+  .thanks { text-align:center; padding:10px 0 4px; }
+  .thanks .big { font-size:64px; }
+  .thanks h2 { font-size:24px; margin:8px 0 6px; }
+  .thanks p { color:var(--muted); }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<main class="card">
+  <section id="form">
+    <div class="logo">🚀</div>
+    <h1>Buy me a boost</h1>
+    <p class="lead">SnapMaster is free. If it saved you time, a small boost helps me keep making it better.</p>
+
+    <label class="t">Choose an amount</label>
+    <div class="chips" id="chips"></div>
+    <div class="amt" style="margin-top:10px"><span>₹</span><input class="field" id="custom" type="number" inputmode="numeric" min="20" max="10000" step="1" placeholder="Or enter your own (20 – 10,000)"></div>
+
+    <label class="t">Your name <span style="text-transform:none;letter-spacing:0;font-weight:500">(optional)</span></label>
+    <input class="field" id="name" maxlength="40" placeholder="e.g. Asha">
+
+    <label class="t">A message <span style="text-transform:none;letter-spacing:0;font-weight:500">(optional)</span></label>
+    <textarea class="field" id="message" maxlength="200" placeholder="What do you use SnapMaster for?"></textarea>
+    <div class="count"><span id="n">0</span>/200</div>
+
+    <button class="pay" id="pay"></button>
+    <div class="msg" id="msg" role="status" aria-live="polite"></div>
+    <p class="fine">Payments are handled securely by Razorpay — SnapMaster never sees your card or UPI details.<br>
+      A boost is a voluntary tip and doesn't unlock anything. Trouble with a payment? <a href="https://github.com/arunbabuks007/SnapMaster/issues" target="_blank" rel="noopener">Tell me here</a>.</p>
+  </section>
+
+  <section id="done" class="thanks" hidden>
+    <div class="big">💜</div>
+    <h2>Thank you!</h2>
+    <p id="doneText">Your boost means a lot.</p>
+    <p style="margin-top:14px"><a href="#" id="again" style="color:#a5b4fc">Send another</a></p>
+  </section>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  var API = 'https://vidhastra-backend.onrender.com';
+  var MIN = 20, MAX = 10000, TIERS = [49, 99, 249, 499];
+  var $ = function (id) { return document.getElementById(id); };
+  var amount = 99, busy = false;
+
+  var chips = $('chips');
+  TIERS.forEach(function (v) {
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = '₹' + v; b.dataset.v = v;
+    b.addEventListener('click', function () { amount = v; $('custom').value = ''; sync(); });
+    chips.appendChild(b);
+  });
+  $('custom').addEventListener('input', function () { var n = parseInt(this.value, 10); amount = isNaN(n) ? 0 : n; sync(); });
+  $('message').addEventListener('input', function () { $('n').textContent = this.value.length; });
+  $('again').addEventListener('click', function (e) { e.preventDefault(); $('done').hidden = true; $('form').hidden = false; setMsg(''); });
+  $('pay').addEventListener('click', start);
+
+  function valid() { return Number.isInteger(amount) && amount >= MIN && amount <= MAX; }
+  function sync() {
+    Array.prototype.forEach.call(chips.children, function (c) { c.classList.toggle('on', +c.dataset.v === amount && !$('custom').value); });
+    $('pay').textContent = valid() ? 'Send a ₹' + amount.toLocaleString('en-IN') + ' boost' : 'Choose an amount';
+    $('pay').disabled = busy || !valid();
+  }
+  function setMsg(t, err) { var m = $('msg'); m.textContent = t || ''; m.className = 'msg' + (err ? ' err' : ''); }
+  function lock(v) { busy = v; sync(); }
+
+  // The server sleeps when idle (free hosting), so the first call can take a while.
+  function api(path, body) {
+    var ctrl = new AbortController(), t = setTimeout(function () { ctrl.abort(); }, 75000);
+    return fetch(API + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: ctrl.signal })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok) throw new Error(j.message || 'Something went wrong.'); return j; }); })
+      .catch(function (e) { throw e.name === 'AbortError' ? new Error('The server took too long. Please try again.') : e; })
+      .finally(function () { clearTimeout(t); });
+  }
+  function loadCheckout() {
+    if (window.Razorpay) return Promise.resolve();
+    return new Promise(function (res, rej) {
+      var s = document.createElement('script'); s.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      s.onload = res; s.onerror = function () { rej(new Error('Could not load the payment window. Check your connection.')); };
+      document.head.appendChild(s);
+    });
+  }
+
+  function start() {
+    if (busy || !valid()) return;
+    lock(true); setMsg('Preparing your payment…');
+    var wake = setTimeout(function () { setMsg('Waking the server up — this can take up to a minute the first time…'); }, 4000);
+    var order;
+    Promise.all([
+      api('/api/boost/create-order', { amount: amount, name: $('name').value, message: $('message').value }),
+      loadCheckout(),
+    ]).then(function (r) {
+      clearTimeout(wake); order = r[0]; setMsg('');
+      var rzp = new window.Razorpay({
+        key: order.key, amount: order.amount, currency: order.currency, order_id: order.orderId,
+        name: 'SnapMaster', description: 'Buy me a boost', theme: { color: '#6d5df0' },
+        handler: function (resp) { confirm(resp); },
+        modal: { ondismiss: function () { lock(false); setMsg('Payment cancelled — nothing was charged.'); } },
+      });
+      rzp.on('payment.failed', function (f) { lock(false); setMsg((f.error && f.error.description) || 'The payment failed. You have not been charged.', true); });
+      rzp.open();
+    }).catch(function (e) { clearTimeout(wake); lock(false); setMsg(e.message, true); });
+  }
+
+  function confirm(resp) {
+    setMsg('Confirming your payment…');
+    api('/api/boost/verify', { razorpayOrderId: resp.razorpay_order_id, razorpayPaymentId: resp.razorpay_payment_id, razorpaySignature: resp.razorpay_signature })
+      .then(function () { showThanks('Your ₹' + amount.toLocaleString('en-IN') + ' boost has arrived. Thank you for supporting SnapMaster!'); })
+      // The money WAS taken; Razorpay also notifies the server directly, so say so rather than alarm the person.
+      .catch(function () { showThanks('Your payment went through. If it takes a moment to show on my side, that is fine — thank you!'); });
+  }
+  function showThanks(text) { lock(false); $('doneText').textContent = text; $('form').hidden = true; $('done').hidden = false; setMsg(''); }
+
+  sync();
+})();
+</script>
+</body>
+</html>
